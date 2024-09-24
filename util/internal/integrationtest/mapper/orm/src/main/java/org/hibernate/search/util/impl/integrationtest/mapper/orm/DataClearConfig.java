@@ -16,6 +16,10 @@ public interface DataClearConfig {
 
 	<T> DataClearConfig preClear(Class<T> entityType, Consumer<T> preClear);
 
+	/**
+	 * @deprecated No longer has any effect
+	 */
+	@Deprecated
 	DataClearConfig clearOrder(Class<?>... entityClasses);
 
 	DataClearConfig clearIndexData(boolean clear);
