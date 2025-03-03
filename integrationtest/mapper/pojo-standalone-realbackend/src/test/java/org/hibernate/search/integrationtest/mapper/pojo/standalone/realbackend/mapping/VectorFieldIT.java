@@ -78,7 +78,7 @@ class VectorFieldIT {
 	@RetryExtension.TestWithRetry
 	void vectorSizeLimits_max_allowed_dimension_with_lots_of_documents() {
 		// with OpenSearch 2.12 it allows up to 16000 which will lead to an OOM in this particular test:
-		int maxDimension = Math.min( 4096, maxDimension() );
+		int maxDimension = Math.min( 5_000, maxDimension() );
 		@Indexed(index = INDEX_NAME)
 		class IndexedEntity {
 			@DocumentId
@@ -212,7 +212,7 @@ class VectorFieldIT {
 
 	private static int maxDimension() {
 		if ( BackendConfiguration.isLucene() ) {
-			return 4096;
+			return 16_000;
 		}
 		else {
 			ElasticsearchVersion actualVersion = ElasticsearchTestDialect.getActualVersion();
@@ -226,7 +226,7 @@ class VectorFieldIT {
 				if ( ElasticsearchDistributionName.AMAZON_OPENSEARCH_SERVERLESS.equals( distribution )
 						|| actualVersion.majorOptional().orElse( Integer.MIN_VALUE ) == 2
 								&& ( actualVersion.minor().isEmpty() || actualVersion.minor().getAsInt() > 11 ) ) {
-					return 16000;
+					return 16_000;
 				}
 				else {
 					return 1024;
